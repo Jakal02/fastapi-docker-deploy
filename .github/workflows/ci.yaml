@@ -1,0 +1,45 @@
+# name: Continuous Integration
+
+# on:
+#   push:
+#     branches:
+#       - main
+#   pull_request:
+
+# env:
+#   POSTGRES_USER: postgres
+#   POSTGRES_PASSWORD: password
+#   POSTGRES_SERVER: localhost
+#   POSTGRES_SERVER_PORT: 5432
+#   POSTGRES_DB: postgres
+#   MEILISEARCH_MASTER_KEY: w6kn1lOjU1w5TJ1Hl1vOJiTHZU6z-mSLFoVGQuWVaKUPOOP
+#   MEILISEARCH_NO_ANALYTICS: true
+
+# jobs:
+#   testing:
+#     strategy:
+#       fail-fast: false
+#       matrix:
+#         python-version: ["3.10", "3.11", "3.12"]
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Just setup
+#         run: |
+#           sudo snap install --edge --classic just
+#       - uses: actions/checkout@v4
+#       - name: Install Poetry
+#         run: |
+#           pipx install poetry
+#       - name: Configure poetry
+#         run: |
+#           poetry config virtualenvs.create true
+#           poetry config virtualenvs.in-project true
+#       - name: Set up Python ${{ matrix.python-version }}
+#         uses: actions/setup-python@v5
+#         with:
+#           python-version: ${{ matrix.python-version }}
+#           cache: "poetry"
+#       - name: Install Dependencies
+#         run: poetry install
+#       - name: Start Tests
+#         run: just tests
