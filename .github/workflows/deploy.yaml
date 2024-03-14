@@ -7,6 +7,10 @@ jobs:
   could-run-deploy:
     name: Start a cloud run instance using the latest image
     runs-on: ubuntu-latest
+    env:
+      IMAGE_NAME: test-fastapi-image-name
+      PROJECT_ID: clean-framework-410217
+      REPOSITORY_ID: test-fastapi-images
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -20,8 +24,8 @@ jobs:
         id: 'deploy'
         uses: 'google-github-actions/deploy-cloudrun@v2'
         with:
-          service: 'hello-cloud-run'
-          image: 'gcr.io/cloudrun/hello'
+          service: fastapi-test-cloud-run
+          image: us-central1-docker.pkg.dev/${{ PROJECT_ID }}/${{ REPOSITORY_ID }}/${{ IMAGE_NAME}}:latest
 
       - name: 'Use output'
         run: 'curl "${{ steps.deploy.outputs.url }}"'
