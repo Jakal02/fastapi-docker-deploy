@@ -3,11 +3,14 @@ from fastapi import Depends
 from sqlalchemy.orm import declarative_base, sessionmaker, Session
 from sqlalchemy import create_engine
 
+from app.config import settings
+
+
 engine = create_engine(
-    "sqlite:///./my_app.db",
-    connect_args={
-        "check_same_thread": False,
-    }
+    settings.get_db_uri_string(),
+    # connect_args={
+    #     "check_same_thread": False,
+    # }
 )
 
 
