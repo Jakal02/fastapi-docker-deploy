@@ -14,12 +14,17 @@ class APISettings(BaseSettings):
         env_file=".env", env_file_encoding="utf-8", case_sensitive=False, extra="allow"
     )
 
+    NODE: str | None = "production"
+
     POSTGRES_SERVER: str | None = None
     POSTGRES_SERVER_PORT: PositiveInt | None = 5432
     POSTGRES_USER: str | None = None
     POSTGRES_PASSWORD: str | None = None
     POSTGRES_DB: str | None = None
     SQLALCHEMY_DATABASE_URI: PostgresDsn | None | str | None = None
+
+    # GCP Cloud SQL Unix Connection
+    INSTANCE_UNIX_SOCKET: str | None = None
 
     @field_validator("SQLALCHEMY_DATABASE_URI", mode="before")
     @classmethod
