@@ -51,3 +51,22 @@ This section will detail how to configure your GCP account and github to give th
     3. On line 31: that docker build points to the right directory where your Dockerfile sits
     4. On line 35: replace that gcloud command with the one from Step 4 of the "In GCP" section
     5. On lines 42-45: replace `<region>.pkg.dev` with the section from the command you saved from Step 4 of the "In GCP" section
+
+## Steps to enable Cloud Run Deployment workflow
+
+### In GCP
+
+1. Set up permissions for workflow to run API
+    1. Enable the Cloud Run Admin API in your GCP Project
+
+
+### In `deploy.yaml` Workflow
+
+1. Copy the same env variables from the `gcp-upload` workflow
+    - Project ID
+    - Repository Name
+    - Image Name
+2. Update Cloud run specification
+    1. On line 27: update the service with the name you want for your cloud run service
+    2. On line 28: fill in the image you want to use.
+        - something like `us-central1-docker.pkg.dev/$PROJECT_ID/$REPOSITORY_ID/$IMAGE_NAME:latest`
