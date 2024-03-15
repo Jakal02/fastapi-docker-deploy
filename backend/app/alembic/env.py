@@ -42,7 +42,7 @@ def run_migrations_offline() -> None:
     script output.
 
     """
-    url = settings.get_db_uri_string()
+    url = settings.get_uri_to_make_sqlalchemy_engine()
     context.configure(
         url=url,
         target_metadata=target_metadata,
@@ -62,7 +62,7 @@ def run_migrations_online() -> None:
 
     """
     configuration = config.get_section(config.config_ini_section, {})
-    configuration["sqlalchemy.url"] = settings.get_db_uri_string()
+    configuration["sqlalchemy.url"] = settings.get_uri_to_make_sqlalchemy_engine()
     connectable = engine_from_config(
         configuration,
         prefix="sqlalchemy.",
