@@ -16,7 +16,7 @@ class APISettings(BaseSettings):
         env_file=".env", env_file_encoding="utf-8", case_sensitive=False, extra="allow"
     )
 
-    NODE: Literal["develop","production", None] = "develop"
+    NODE: Literal["development","production", None] = "development"
 
     POSTGRES_SERVER: str | None = None
     POSTGRES_SERVER_PORT: PositiveInt | None = 5432
