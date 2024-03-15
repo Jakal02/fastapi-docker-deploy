@@ -7,7 +7,7 @@ from app.config import settings
 
 
 engine = create_engine(
-    settings.get_db_uri_string(),
+    settings.get_uri_to_make_sqlalchemy_engine(),
     # connect_args={
     #     "check_same_thread": False,
     # }
