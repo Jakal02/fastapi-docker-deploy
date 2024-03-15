@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any, Literal
 
 from sqlalchemy.engine.url import URL
 
@@ -16,7 +16,7 @@ class APISettings(BaseSettings):
         env_file=".env", env_file_encoding="utf-8", case_sensitive=False, extra="allow"
     )
 
-    NODE: str | None = "develop"
+    NODE: Literal["develop","production", None] = "develop"
 
     POSTGRES_SERVER: str | None = None
     POSTGRES_SERVER_PORT: PositiveInt | None = 5432
