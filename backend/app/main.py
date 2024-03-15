@@ -10,7 +10,7 @@ app = FastAPI()
 
 @app.get("/")
 def root_of_app():
-    return {"message": "Hello World! 2"}
+    return {"message": "Hello World! 3"}
 
 @app.get("/num_posts")
 def get_num_posts(db: SessionDep):
