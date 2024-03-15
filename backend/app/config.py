@@ -23,7 +23,7 @@ class APISettings(BaseSettings):
     POSTGRES_USER: str | None = None
     POSTGRES_PASSWORD: str | None = None
     POSTGRES_DB: str | None = None
-    SQLALCHEMY_DATABASE_URI: PostgresDsn | None | str | None = None
+    SQLALCHEMY_DATABASE_URI: PostgresDsn | None | str | URL = None
 
     # GCP Cloud SQL Unix Connection
     INSTANCE_UNIX_SOCKET: str | None = None
@@ -50,9 +50,19 @@ class APISettings(BaseSettings):
 
     def get_db_uri_string(self) -> str:
         """Return the string format of the database URI."""
-        return self.SQLALCHEMY_DATABASE_URI.unicode_string()
-    
-    def _create_prod_db_url(self, values: ValidationInfo) -> str:
+        if isinstance(self.SQLALCHEMY_DATABASE_URI, PostgresDsn):
+            return self.SQLALCHEMY_DATABASE_URI.unicode_string()
+        if isinstance(self.SQLALCHEMY_DATABASE_URI, URL):
+            return self.SQLALCHEMY_DATABASE_URI.render_as_string(hide_password=False)
+        return self.SQLALCHEMY_DATABASE_URI
+
+    def get_uri_to_make_sqlalchemy_engine(self) -> str | URL:
+        """Return the database URI in a form acceptable by sqlalchemy.create_engine()"""
+        if isinstance(self.SQLALCHEMY_DATABASE_URI, PostgresDsn):
+            return self.SQLALCHEMY_DATABASE_URI.unicode_string()
+        return self.SQLALCHEMY_DATABASE_URI
+
+    def _create_prod_db_url(self, values: ValidationInfo) -> URL:
         """Initializes a Unix socket connection pool for a Cloud SQL instance of Postgres."""
         # copied from: https://cloud.google.com/sql/docs/postgres/connect-run#connect-unix-socket
         # Note: Saving credentials in environment variables is convenient, but not
