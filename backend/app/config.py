@@ -101,12 +101,12 @@ class APISettings(BaseSettings):
 
     @field_validator("MEILISEARCH_URL", mode="before")
     @classmethod
-    def assemble_meili_connection(cls, v: str | None, values: ValidationInfo) -> Any:
+    def assemble_meili_connection(cls, v: str | None, values: ValidationInfo) -> HttpUrl:
         """Create meilisearch database connection url."""
         host = values.data.get("MEILISEARCH_HOST")
         port = values.data.get("MEILISEARCH_PORT")
         if values.data.get("MEILISEARCH_IS_HTTPS"):
-            url = f"https://{host}:{port}"
+            url = f"https://{host}"
         else:
             url = f"http://{host}:{port}"
         return HttpUrl(url)
