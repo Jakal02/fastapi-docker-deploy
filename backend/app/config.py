@@ -87,7 +87,7 @@ class APISettings(BaseSettings):
                 username=db_user,
                 password=db_pass,
                 database=db_name,
-                query={"host": f"{unix_socket_path}/.s.PGSQL.5432"},
+                query={"host": f"{unix_socket_path}"}, # it seems this is appended interally /.s.PGSQL.5432
             )
 
 
