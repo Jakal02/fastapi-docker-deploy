@@ -1,7 +1,8 @@
-from typing import Annotated
+from typing import Annotated, Generator
 from fastapi import Depends
 from sqlalchemy.orm import declarative_base, sessionmaker, Session
 from sqlalchemy import create_engine, engine
+from meilisearch import Client
 
 from app.config import settings
 
@@ -26,3 +27,15 @@ def get_db():
         db.close()
 
 SessionDep = Annotated[Session, Depends(get_db)]
+
+
+INDEX_NAME = "posts"
+
+def get_meilisearch_client():
+    """Get a meilisearch client."""
+    client = Client(
+        url=settings.get_meilisearch_url_string(), api_key=settings.MEILISEARCH_MASTER_KEY
+    )
+    yield client
+
+SearchDep = Annotated[Client, Depends(get_meilisearch_client)]

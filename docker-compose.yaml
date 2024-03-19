@@ -15,3 +15,10 @@ services:
       - .env
     ports:
       - 8080:8080
+  meilisearch:
+    image: getmeili/meilisearch:latest
+    ports:
+      - 7700:7700
+    environment:
+      - MEILI_MASTER_KEY=${MEILISEARCH_MASTER_KEY}
+      - MEILI_NO_ANALYTICS=${MEILISEARCH_NO_ANALYTICS}

@@ -2,7 +2,7 @@ from typing import Any, Literal
 
 from sqlalchemy.engine.url import URL
 
-from pydantic import PositiveInt, PostgresDsn, ValidationInfo, field_validator
+from pydantic import PositiveInt, PostgresDsn, ValidationInfo, field_validator, HttpUrl
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -29,6 +29,14 @@ class APISettings(BaseSettings):
     # Any variables defined after SQLALCHEMY_DATABASE_URI will NOT be avaiable in `values`
     # for the assemble_db_connection function
     SQLALCHEMY_DATABASE_URI: PostgresDsn | None | str | URL = None
+
+    # Meilisearch Information
+    MEILISEARCH_HOST: str
+    MEILISEARCH_PORT: PositiveInt = 7700
+    MEILISEARCH_MASTER_KEY: str
+    MEILISEARCH_NO_ANALYTICS: bool = True
+    MEILISEARCH_IS_HTTPS: bool = False
+    MEILISEARCH_URL: HttpUrl | None = None
 
     @field_validator("SQLALCHEMY_DATABASE_URI", mode="before")
     @classmethod
@@ -89,6 +97,23 @@ class APISettings(BaseSettings):
                 database=db_name,
                 query={"host": f"{unix_socket_path}"}, # it seems this is appended interally /.s.PGSQL.5432
             )
+
+
+    @field_validator("MEILISEARCH_URL", mode="before")
+    @classmethod
+    def assemble_meili_connection(cls, v: str | None, values: ValidationInfo) -> Any:
+        """Create meilisearch database connection url."""
+        host = values.data.get("MEILISEARCH_HOST")
+        port = values.data.get("MEILISEARCH_PORT")
+        if values.data.get("MEILISEARCH_IS_HTTPS"):
+            url = f"https://{host}:{port}"
+        else:
+            url = f"http://{host}:{port}"
+        return HttpUrl(url)
+
+    def get_meilisearch_url_string(self) -> str:
+        """Return the url to connect to meilisearch."""
+        return self.MEILISEARCH_URL.unicode_string()
 
 
 settings = APISettings()

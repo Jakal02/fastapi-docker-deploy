@@ -1,8 +1,7 @@
 """Main for Simple App."""
 
 from fastapi import FastAPI, HTTPException
-from sqlalchemy import text
-from app.database import SessionDep
+from app.database import SessionDep, SearchDep
 from app.models import Post
 
 
@@ -19,3 +18,10 @@ def get_num_posts(db: SessionDep):
     except Exception as e:
         raise HTTPException(status_code=500, detail=e.__str__())
     return {"message": f"number of posts is {num}"}
+
+@app.get("/meili_health")
+def get_meili_health(client: SearchDep):
+    try:
+        return {"message": client.health()}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=e.__str__())
