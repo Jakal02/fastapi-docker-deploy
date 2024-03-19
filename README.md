@@ -14,6 +14,8 @@ This repo exists so I can practice creating a simple fastapi application, docker
 - [X] Add a database to the FastAPI app
 - [X] Have the local app docker container communicate to a local db
 - [X] Figure out how to deploy the app and connect it to an existing DB
+- [ ] Connect local api to local meilisearch instance
+- [ ] Connect deployed API to GCP compute engine running meilisearch
 
 
 ## Steps to build image and put it in GCP Artifact Registry
