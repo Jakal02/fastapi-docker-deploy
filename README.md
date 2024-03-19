@@ -9,11 +9,11 @@ This repo exists so I can practice creating a simple fastapi application, docker
 
 - [X] Create a FastAPI app with only static routes.
 - [X] Create a Dockerfile that runs the FastAPI app
-- [ ] Get the Dockerfile Deployed in the cloud
+- [X] Get the Dockerfile Deployed in the cloud
         - Perhaps outside the scope of this repo
-- [ ] Add a database to the FastAPI app
-- [ ] Have the local app docker container communicate to a local db
-- [ ] Figure out how to deploy the app and connect it to an existing DB
+- [X] Add a database to the FastAPI app
+- [X] Have the local app docker container communicate to a local db
+- [X] Figure out how to deploy the app and connect it to an existing DB
 
 
 ## Steps to build image and put it in GCP Artifact Registry
